@@ -13,29 +13,15 @@ import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 object NetworkConfig {
-    private val TIMEOUT_SECONDS = 30L // Timeout dalam detik
-
-    fun getInterceptor() : OkHttpClient {
+    fun getInterceptor() : OkHttpClient{
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(logging)
-            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
 
         return okHttpClient
-//    fun getInterceptor() : OkHttpClient{
-//        val logging = HttpLoggingInterceptor()
-//        logging.level = HttpLoggingInterceptor.Level.BODY
-//
-//        val okHttpClient = OkHttpClient.Builder()
-//            .addInterceptor(logging)
-//            .build()
-//
-//        return okHttpClient
     }
 
     fun getRetrofit(): Retrofit{
