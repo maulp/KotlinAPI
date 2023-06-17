@@ -10,17 +10,32 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import java.util.concurrent.TimeUnit
 
 object NetworkConfig {
-    fun getInterceptor() : OkHttpClient{
+    private val TIMEOUT_SECONDS = 30L // Timeout dalam detik
+
+    fun getInterceptor() : OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(logging)
+            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
 
         return okHttpClient
+//    fun getInterceptor() : OkHttpClient{
+//        val logging = HttpLoggingInterceptor()
+//        logging.level = HttpLoggingInterceptor.Level.BODY
+//
+//        val okHttpClient = OkHttpClient.Builder()
+//            .addInterceptor(logging)
+//            .build()
+//
+//        return okHttpClient
     }
 
     fun getRetrofit(): Retrofit{
