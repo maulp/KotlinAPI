@@ -5,12 +5,12 @@
             $menu =  $this->input->post('menu');
             $harga = $this->input->post('harga');
             $jumlah = $this->input->post('jumlah');
-            $total = $this->input->post($harga * $jumlah);
+            $total = $harga * $jumlah;
 
             $data['menu'] = $menu;
             $data['harga'] = $harga;
             $data['jumlah'] = $jumlah;
-            $data['total'] = $harga * $jumlah;
+            $data['total'] = $total;
             $q = $this->db->insert('tb_menu', $data);
 
             if($q){
@@ -44,7 +44,7 @@
             $menu = $this->input->post('menu');
             $harga = $this->input->post('harga');
             $jumlah = $this->input->post('jumlah');
-            $total = $this->input->post($harga * $jumlah);
+            $total = $harga * $jumlah;
             $this->db->where('menu_id', $id);
 
             $data['menu'] = $menu;
