@@ -1,0 +1,81 @@
+<?php
+    defined('BASEPATH') OR exit('No direct script access allowed');
+    class WarungApi extends CI_Controller{
+        public function addMenu(){
+            $menu =  $this->input->post('menu');
+            $harga = $this->input->post('harga');
+            $jumlah = $this->input->post('jumlah');
+            $total = $this->input->post($harga * $jumlah);
+
+            $data['menu'] = $menu;
+            $data['harga'] = $harga;
+            $data['jumlah'] = $jumlah;
+            $data['total'] = $harga * $jumlah;
+            $q = $this->db->insert('tb_menu', $data);
+
+            if($q){
+                $response['pesan'] = 'insert berhasil';
+                $response['status'] = 200;
+            } else{
+                $response['pesan'] = 'insert gagal';
+                $response['status'] = 404;
+            }
+            echo json_encode($response);
+        }
+
+        public function getMenu(){
+            $q = $this->db->get('tb_menu');
+
+            if($q->num_rows() > 0){
+                $response['pesan'] = 'data ada';
+                $response['status'] = 200;
+
+                $response['menu'] = $q->row();
+                $response['menu'] = $q->result();
+            } else {
+                $response['pesan'] = 'data tidak ada';
+                $response['status'] = 404;
+            }
+            echo json_encode($response);
+        }
+
+        public function updateMenu(){
+            $id = $this->input->post('id');
+            $menu = $this->input->post('menu');
+            $harga = $this->input->post('harga');
+            $jumlah = $this->input->post('jumlah');
+            $total = $this->input->post($harga * $jumlah);
+            $this->db->where('menu_id', $id);
+
+            $data['menu'] = $menu;
+            $data['harga'] = $harga;
+            $data['jumlah'] = $jumlah;
+            $data['total'] = $total;
+            $q = $this->db->update('tb_menu', $data);
+
+            if($q){
+                $response['pesan'] = 'update berhasil';
+                $response['status'] = 200;
+            } else {
+                $response['pesan'] = 'update gagal';
+                $response['status'] = 404;
+            }
+            echo json_encode($response);
+        }
+
+        public function deleteMenu(){
+            $id = $this->input->post('id');
+            $this->db->where('menu_id', $id);
+            $status = $this->db->delete('tb_menu');
+
+            if ($status == true){
+                $response['pesan'] = 'hapus berhasil';
+                $response['status'] = 200;
+            } else {
+                $response['pesan'] = 'hapus gagal';
+                $response['status'] = 404;
+            }
+            echo json_encode($response);
+        }
+    }
+?>
